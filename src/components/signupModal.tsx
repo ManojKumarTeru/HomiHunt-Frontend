@@ -8,7 +8,7 @@ export default function SignupModal({ onClose, onSwitchToLogin }: { onClose: () 
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = async (e: any) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 

@@ -13,21 +13,22 @@ export default function Header() {
         setUser(parsedUser);
       } catch (e) {
         setUser(null);
+        console.log(e);
       }
     }
   }, []);
 
   const username = user?.email?.split('@')[0] || 'Guest';
 
-  const handleAuthClick = () => {
-    if (user) {
-      localStorage.removeItem('user');
-      window.location.reload();
-    } else {
-      // Open login modal or redirect to login
-      window.location.href = '/login'; // or show modal
-    }
-  };
+  // const handleAuthClick = () => {
+  //   if (user) {
+  //     localStorage.removeItem('user');
+  //     window.location.reload();
+  //   } else {
+  //     // Open login modal or redirect to login
+  //     window.location.href = '/login'; // or show modal
+  //   }
+  // };
 
   return (
     <header className="w-full bg-white shadow-md sticky top-0 z-50">

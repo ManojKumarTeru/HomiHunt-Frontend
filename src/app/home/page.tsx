@@ -3,14 +3,63 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import PropertyCard from '@/components/propertyCard';
+import { StaticImageData } from 'next/image';
+
+import one from "../../../public/PropertyImgs/one.jpeg"
+import two from "../../../public/PropertyImgs/two.jpeg"
+import three from "../../../public/PropertyImgs/three.jpeg"
+import four from "../../../public/PropertyImgs/four.jpeg"
+import five from "../../../public/PropertyImgs/five.jpeg"
+import six from "../../../public/PropertyImgs/six.jpeg"
+import seven from "../../../public/PropertyImgs/seven.jpeg"
+import eight from "../../../public/PropertyImgs/eight.jpeg"
+import  nine from "../../../public/PropertyImgs/nine.jpeg"
+import ten from "../../../public/PropertyImgs/ten.jpeg"
+import eleven from "../../../public/PropertyImgs/eleven.jpeg"
+import twelve from "../../../public/PropertyImgs/twelve.jpeg"
+import thirteen from "../../../public/PropertyImgs/thirteen.jpeg"
+import fourteen from "../../../public/PropertyImgs/fourteen.jpeg"
+import fifteen from "../../../public/PropertyImgs/fifteen.jpeg"
+import sixteen from "../../../public/PropertyImgs/sixteen.jpeg"
+import seventeen from "../../../public/PropertyImgs/seventeen.jpeg"
+import eighteen from "../../../public/PropertyImgs/eighteen.jpeg"
+import nineteen from "../../../public/PropertyImgs/nineteen.jpeg"
+import twenty from "../../../public/PropertyImgs/twenty.jpeg"
+import twentyone from "../../../public/PropertyImgs/twentyone.jpeg"
+import twentytwo from "../../../public/PropertyImgs/twentytwo.jpeg"
+import twentythree from "../../../public/PropertyImgs/twentythree.jpeg"
+import twentyfour from "../../../public/PropertyImgs/twentyfour.jpeg"
+import twentyfive from "../../../public/PropertyImgs/twentyfive.jpeg"
+import twentysix from "../../../public/PropertyImgs/twentysix.jpeg"
+import twentyseven from "../../../public/PropertyImgs/twentyseven.jpeg"
+import twentyeight from "../../../public/PropertyImgs/twentyeight.jpeg"
+import twentynine from "../../../public/PropertyImgs/twentynine.jpeg"
+import thirty from "../../../public/PropertyImgs/thirty.jpeg"
+
+
+
+
 
 interface Property {
   _id: string;
   title: string;
   city: string;
   price: string;
-  image?: string;
+  image: string | StaticImageData; 
+  type?: string;
+  state?: string;
+  areaSqFt?: number;
+  bedrooms?: number;
+  furnished?: string;
+  listedBy?: string;
+  amenities?: string[];
+  tags?: string[];
+  colorTheme?: string;
+  rating?: number;
+  isVerified?: boolean;
+  listingType?: string;
 }
+
 
 const ClientHeader = dynamic(() => import('../../components/clientHeader'), { ssr: false });
 
@@ -20,7 +69,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [currpage, setPage] = useState(1);
   const [hasMore,setHasMore]=useState(true);
-  const [showLogin, setShowLogin] = useState(false);
+  // const [showLogin, setShowLogin] = useState(false);
 
 
   // ✅ Fetch user name only once
@@ -37,7 +86,7 @@ export default function HomePage() {
   // ✅ Fetch properties on page change
   useEffect(() => {
     setLoading(true);
-    fetch(`https://property-listing-backend-khws.onrender.com/properties?page=${currpage}&limit=30`)
+    fetch(`http://localhost:5000/properties?page=${currpage}&limit=30`)
       .then((res) => res.json())
       .then((data) => {
         const newProperties = Array.isArray(data) ? data : data.properties || [];
@@ -62,34 +111,12 @@ export default function HomePage() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]);
+  }, [loading,hasMore]);
 
   const curatedHouseImages = [
-    "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg",
-    "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg",
-    "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg",
-    "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg",
-    "https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg",
-    "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
-    "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-    "https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg",
-    "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-    "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg",
-    "https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg",
-    "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg",
-    "https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg",
-    "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg",
-    "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg",
-    "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg",
-    "https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg",
-    "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg",
-    "https://images.pexels.com/photos/534151/pexels-photo-534151.jpeg",
-    "https://images.pexels.com/photos/221502/pexels-photo-221502.jpeg",
-    "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg",
-    "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg",
-    "https://images.pexels.com/photos/261146/pexels-photo-261146.jpeg",
-    "https://images.pexels.com/photos/1571458/pexels-photo-1571458.jpeg",
-    "https://images.pexels.com/photos/323775/pexels-photo-323775.jpeg",
+   one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,
+   sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive,
+   twentysix,twentyseven,twentyeight,twentynine,thirty
   ];
 
   return (
@@ -126,9 +153,10 @@ export default function HomePage() {
           <h3 className="text-lg font-semibold text-gray-800 mb-4">🏘️ All Properties</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property, index) => {
-              const imageUrl = curatedHouseImages[index % curatedHouseImages.length];
-              return <PropertyCard key={property._id} property={{ ...property, imageUrl }} />;
-            })}
+  const image = curatedHouseImages[index % curatedHouseImages.length];
+  return <PropertyCard key={property._id} property={{ ...property, image }} />;
+})}
+
           </div>
         </>
       )}

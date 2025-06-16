@@ -7,16 +7,12 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
 
       const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setMessage('');
-    setLoading(true);
 
     try {
       const response = await fetch(
@@ -32,22 +28,20 @@ export default function LoginPage() {
       );
 
       if (response.ok) {
-        const text = await response.text();
-        setMessage(text);
+        // const text = await response.text();
 
-        // ✅ AUTO-LOGIN: Simulate storing user info (replace this with real logic)
         localStorage.setItem('user', JSON.stringify({ email,password }));
 
-        // ✅ Redirect to dashboard/home/profile after auto-login
         router.push('/home'); // change to your actual path
       } else {
         const errText = await response.text();
         setError(errText);
+        console.log(error);
       }
     } catch (err) {
       setError('Something went wrong. Please try again.');
+      console.log(err);
     } finally {
-      setLoading(false);
     }
   };
 

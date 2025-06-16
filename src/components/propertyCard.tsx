@@ -1,10 +1,12 @@
 "use client"
 import { Star } from 'lucide-react';
+import Image from 'next/image';
+import { Property } from '@/types/property';
 
-export default function PropertyCard({ property }: { property: any }) {
+export default function PropertyCard({ property }: { property: Property }) {
   const {
     title,
-    imageUrl,
+    image,
     type,
     city,
     state,
@@ -31,8 +33,8 @@ export default function PropertyCard({ property }: { property: any }) {
   style={{ borderColor: colorTheme || '#ddd' }}
 >
       <div className="relative h-48 bg-gradient-to-tr from-white to-gray-100 flex items-center justify-center text-xl font-semibold text-gray-700">
-    <img
-      src={imageUrl}
+    <Image
+      src={image|| ""} 
       alt={title}
       className="w-full h-full object-cover"
   />
@@ -71,21 +73,21 @@ export default function PropertyCard({ property }: { property: any }) {
           <span>By {listedBy}</span>
         </div>
 
-        {/* Amenities */}
-            <div className="flex flex-wrap gap-1 mt-2 text-xs text-gray-600">
-                {(amenities[0]?.split('|') || []).map((item: string, index: number) => (
-                 <span key={index} className="bg-gray-100 px-2 py-1 rounded-full">{item}</span>
-            ))}
-            </div>
+       {/* Amenities */}
+<div className="flex flex-wrap gap-1 mt-2 text-xs text-gray-600">
+  {(amenities?.[0]?.split('|') || []).map((item: string, index: number) => (
+    <span key={index} className="bg-gray-100 px-2 py-1 rounded-full">{item}</span>
+  ))}
+</div>
 
 {/* Tags */}
-            <div className="flex flex-wrap gap-1 mt-2 text-xs">
-                {(tags[0]?.split('|') || []).map((tag: string, index: number) => (
-                <span key={index} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
-            #{tag}
-            </span>
-            ))}
-            </div>
+<div className="flex flex-wrap gap-1 mt-2 text-xs">
+  {(tags?.[0]?.split('|') || []).map((tag: string, index: number) => (
+    <span key={index} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+      #{tag}
+    </span>
+  ))}
+</div>
 
 
         {/* Rating */}

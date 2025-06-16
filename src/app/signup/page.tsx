@@ -60,7 +60,7 @@ export default function SignupPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-         Create Your Account
+         {/* Create Your Account */}
         </h2>
 
         {message && <p className="mb-4 text-green-600 text-center">{message}</p>}

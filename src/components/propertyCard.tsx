@@ -106,3 +106,5 @@ export default function PropertyCard({ property }: { property: Property }) {
     </div>
   );
 }
+
+

@@ -86,7 +86,7 @@ export default function HomePage() {
   // ✅ Fetch properties on page change
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:5000/properties?page=${currpage}&limit=30`)
+    fetch(`https://property-listing-backend-khws.onrender.com/properties?page=${currpage}&limit=30`)
       .then((res) => res.json())
       .then((data) => {
         const newProperties = Array.isArray(data) ? data : data.properties || [];

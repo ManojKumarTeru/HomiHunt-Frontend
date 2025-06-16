@@ -39,14 +39,60 @@ export default function SignupModal({ onClose, onSwitchToLogin }: { onClose: () 
           Create Account 🚀
         </h2>
         <form onSubmit={handleSignup} className="space-y-3">
-          <input placeholder="First Name" value={firstName} onChange={(e) => setfirstName(e.target.value)}
-            className="w-full p-2 border rounded-md" required />
-          <input placeholder="Last Name" value={lastName} onChange={(e) => setlastName(e.target.value)}
-            className="w-full p-2 border rounded-md" required />
-          <input type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded-md" required />
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded-md" required />
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+              First Name
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              required
+              value={firstName}
+              onChange={(e) => setfirstName(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 sm:text-sm p-2"
+            />
+          </div>
+         <div>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              required
+              value={lastName}
+              onChange={(e) => setlastName(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 sm:text-sm p-2"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 sm:text-sm p-2"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 sm:text-sm p-2"
+            />
+          </div>
 
           <button type="submit" disabled={loading} className="cursor-pointer w-full bg-indigo-600 text-white py-2 rounded-md">
             {loading ? 'Signing up...' : 'Signup'}

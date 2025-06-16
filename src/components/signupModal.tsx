@@ -34,8 +34,10 @@ export default function SignupModal({ onClose, onSwitchToLogin }: { onClose: () 
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10">
       <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md relative backdrop-blur-3xl">
         <button onClick={onClose} className="cursor-pointer absolute top-2 right-3 text-xl font-bold">×</button>
-        <h2 className="text-xl font-bold text-center mb-4">Create Account 🚀</h2>
-
+        {/* <h2 className="text-xl font-bold text-center mb-4">Create Account 🚀</h2> */}
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          Create Account 🚀
+        </h2>
         <form onSubmit={handleSignup} className="space-y-3">
           <input placeholder="First Name" value={firstName} onChange={(e) => setfirstName(e.target.value)}
             className="w-full p-2 border rounded-md" required />

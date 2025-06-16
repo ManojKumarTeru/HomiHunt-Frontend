@@ -130,7 +130,11 @@ export default function HomePage() {
 
       {/* Filters UI (not wired yet) */}
       <div className="mb-6 grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <input type="text" placeholder="City" className="p-2 border rounded-md w-full" />
+        <input
+        type="text"
+        placeholder="City"
+        className="w-full p-3 text-sm placeholder-gray-500 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
         <select className="p-2 border rounded-md w-full">
           <option>Price Range</option>
           <option>₹5k - ₹15k</option>

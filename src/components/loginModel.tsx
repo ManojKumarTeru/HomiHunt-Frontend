@@ -34,7 +34,7 @@ export default function LoginModal({ onClose,onLogin, onSwitchToSignup }:LoginMo
           }),
         }
       );
-      const text = await response.text();
+      // const text = await response.text();
      if (response.ok) {
         onLogin(email); // Triggers update in ClientHeader
       onClose();

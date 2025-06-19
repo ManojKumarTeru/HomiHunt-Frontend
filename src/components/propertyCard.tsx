@@ -45,6 +45,7 @@ export default function PropertyCard({
         setIsAuthenticated(res.ok);
       } catch (err) {
         setIsAuthenticated(false);
+        console.log(err);
       }
     };
     checkAuth();

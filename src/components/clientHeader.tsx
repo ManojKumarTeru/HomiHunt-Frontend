@@ -60,7 +60,7 @@ export default function ClientHeader() {
         setUsername(name.charAt(0).toUpperCase() + name.slice(1));
       }
     } catch (err) {
-      console.log("User not logged in");
+      console.log("User not logged in",err);
     }
   };
 

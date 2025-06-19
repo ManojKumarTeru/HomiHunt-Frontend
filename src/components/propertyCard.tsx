@@ -1,8 +1,9 @@
-"use client"
+"use client";
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import { Property } from '@/types/property';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function PropertyCard({
   property,
@@ -11,6 +12,9 @@ export default function PropertyCard({
   property: Property;
   onRequireLogin: () => void;
 }) {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
   const {
     title,
     image,
@@ -28,19 +32,30 @@ export default function PropertyCard({
     rating,
     isVerified,
     listingType,
+    _id,
   } = property;
 
-   const router = useRouter();
+  // ✅ Check auth using cookie-based fetch
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('https://property-listing-backend-khws.onrender.com/auth/me', {
+          credentials: 'include',
+        });
+        setIsAuthenticated(res.ok);
+      } catch (err) {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
-   const handleClick = () => {
-    const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null;
-
-    if (!user) {
-      onRequireLogin(); // 👈 open login modal from parent
+  const handleClick = () => {
+    if (!isAuthenticated) {
+      onRequireLogin(); // Open login modal
       return;
     }
-
-    router.push(`/property/${property._id}`);
+    router.push(`/property/${_id}`);
   };
 
   const getListingLabel = () => {
@@ -48,33 +63,28 @@ export default function PropertyCard({
   };
 
   return (
-    <div onClick={handleClick}
-  className=" cursor-pointer rounded-xl shadow-lg overflow-hidden border transition-transform duration-300 hover:-translate-y-3"
-  style={{ borderColor: colorTheme || '#ddd' }}
->
+    <div
+      onClick={handleClick}
+      className="cursor-pointer rounded-xl shadow-lg overflow-hidden border transition-transform duration-300 hover:-translate-y-3"
+      style={{ borderColor: colorTheme || '#ddd' }}
+    >
       <div className="relative h-48 bg-gradient-to-tr from-white to-gray-100 flex items-center justify-center text-xl font-semibold text-gray-700">
-    <Image
-      src={image|| ""} 
-      alt={title}
-      className="w-full h-full object-cover"
-  />
-  <span
-    className="absolute top-2 left-2 text-white text-xs font-bold px-2 py-1 rounded-md"
-    style={{ backgroundColor: colorTheme || '#6366f1' }}
-  >
-    {getListingLabel()}
-  </span>
-        {isVerified && (
-          <span className="absolute top-2 right-2 text-green-600 text-xs font-bold bg-green-100 px-2 py-1 rounded-full">
-            ✅ Verified
-          </span>
-        )}
+        <Image
+          src={image || ''}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
         <span
           className="absolute top-2 left-2 text-white text-xs font-bold px-2 py-1 rounded-md"
           style={{ backgroundColor: colorTheme || '#6366f1' }}
         >
           {getListingLabel()}
         </span>
+        {isVerified && (
+          <span className="absolute top-2 right-2 text-green-600 text-xs font-bold bg-green-100 px-2 py-1 rounded-full">
+            ✅ Verified
+          </span>
+        )}
       </div>
 
       <div className="p-4 space-y-2">
@@ -93,30 +103,27 @@ export default function PropertyCard({
           <span>By {listedBy}</span>
         </div>
 
-       {/* Amenities */}
-<div className="flex flex-wrap gap-1 mt-2 text-xs text-gray-600">
-  {(amenities?.[0]?.split('|') || []).map((item: string, index: number) => (
-    <span key={index} className="bg-gray-100 px-2 py-1 rounded-full">{item}</span>
-  ))}
-</div>
+        <div className="flex flex-wrap gap-1 mt-2 text-xs text-gray-600">
+          {(amenities?.[0]?.split('|') || []).map((item, i) => (
+            <span key={i} className="bg-gray-100 px-2 py-1 rounded-full">{item}</span>
+          ))}
+        </div>
 
-{/* Tags */}
-<div className="flex flex-wrap gap-1 mt-2 text-xs">
-  {(tags?.[0]?.split('|') || []).map((tag: string, index: number) => (
-    <span key={index} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
-      #{tag}
-    </span>
-  ))}
-</div>
+        <div className="flex flex-wrap gap-1 mt-2 text-xs">
+          {(tags?.[0]?.split('|') || []).map((tag, i) => (
+            <span key={i} className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+              #{tag}
+            </span>
+          ))}
+        </div>
 
-
-        {/* Rating */}
         <div className="flex items-center gap-1 mt-2 text-sm text-yellow-500 font-medium">
           <Star className="w-4 h-4 fill-yellow-500" />
           {rating}/5
         </div>
 
-        <button onClick={handleClick}
+        <button
+          onClick={handleClick}
           className="cursor-pointer w-full mt-3 py-2 text-sm font-semibold rounded-md text-white"
           style={{ backgroundColor: colorTheme || '#4f46e5' }}
         >
@@ -126,5 +133,3 @@ export default function PropertyCard({
     </div>
   );
 }
-
-

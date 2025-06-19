@@ -202,7 +202,11 @@ export default function HomePage() {
 {showLoginModal && (
   <LoginModal
     onClose={() => setShowLoginModal(false)}
-    onLogin={() => setShowLoginModal(false)}
+     onLogin={(email) => {
+    const name = email.split('@')[0];
+    setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+    setShowLoginModal(false);
+  }}
     onSwitchToSignup={() => {
       setShowLoginModal(false);
       setShowSignupModal(true); // 👈 open signup

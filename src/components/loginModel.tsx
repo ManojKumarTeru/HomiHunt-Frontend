@@ -36,9 +36,8 @@ export default function LoginModal({ onClose,onLogin, onSwitchToSignup }:LoginMo
       );
       const text = await response.text();
      if (response.ok) {
-        console.log("Login Response Text:", text);
-        console.log(text);
-
+        onLogin(email); // Triggers update in ClientHeader
+      onClose();
   // const parts = text.split(' ');
   // const token = parts[parts.length - 1];
   // localStorage.setItem('user', JSON.stringify({ email, token }));

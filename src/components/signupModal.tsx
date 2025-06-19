@@ -4,10 +4,11 @@ import { useState } from 'react';
 type SignupModalProps = {
   onClose: () => void;
   onSwitchToLogin: () => void;
+   onSignupSuccess?: () => void;
 };
 
 
-export default function SignupModal({ onClose, onSwitchToLogin }: SignupModalProps) {
+export default function SignupModal({ onClose, onSwitchToLogin,onSignupSuccess  }: SignupModalProps) {
   const [email, setEmail] = useState('');
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
@@ -15,27 +16,27 @@ export default function SignupModal({ onClose, onSwitchToLogin }: SignupModalPro
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    const response = await fetch('https://property-listing-backend-khws.onrender.com/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials:"include",
-      body: JSON.stringify({ firstName, lastName, emailId: email, password }),
-    });
+  const response = await fetch('https://property-listing-backend-khws.onrender.com/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ firstName, lastName, emailId: email, password }),
+  });
 
-    const data = await response.text();
+  const data = await response.text();
 
-    if (response.ok) {
-      localStorage.setItem('user', JSON.stringify({ email }));
-      window.location.reload();
-    } else {
-      alert(data);
-    }
+  if (response.ok) {
+    // ✅ Show login modal instead of reloading
+    onSignupSuccess?.();
+  } else {
+    alert(data);
+  }
 
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/10">

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import LoginModal from "../components/loginModel"; // ✅ Make sure filename is correct (case-sensitive)
 import SignupModal from "../components/signupModal";
+import toast from 'react-hot-toast';
 
 export default function ClientHeader() {
   const [username, setUsername] = useState('Guest');
@@ -22,6 +23,30 @@ export default function ClientHeader() {
   //     }
   //   }
   // }, []);
+
+
+  const handleLogout = async () => {
+  try {
+    const res = await fetch("https://property-listing-backend-khws.onrender.com/auth/logout", {
+      method: "POST",
+      credentials: "include", // Important for cookie removal
+    });
+
+    if (res.ok) {
+      setUsername("Guest"); // Reset username
+      toast.success("Logged out successfully!");
+      // setShowLogin(true);   // Show login modal again (optional)
+    } else {
+      toast.error("Logout failed");
+    }
+  } catch (err) {
+    console.error("Logout error:", err);
+    toast.error("Something went wrong");
+  }
+};
+
+
+
 
   useEffect(() => {
   const fetchUser = async () => {
@@ -70,12 +95,10 @@ export default function ClientHeader() {
           <button
             className="cursor-pointer bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 text-sm font-medium"
             onClick={() => {
-              if (username === 'Guest') setShowLogin(true);
-              else {
-                localStorage.removeItem('user');
-                window.location.reload();
-              }
-            }}
+  if (username === 'Guest') setShowLogin(true);
+  else handleLogout();
+}}
+
           >
             {username === "Guest" ? "Login" : "Logout"}
           </button>
@@ -98,15 +121,22 @@ export default function ClientHeader() {
   />
 )}
 
-      {showSignup && (
-        <SignupModal
-          onClose={() => setShowSignup(false)}
-          onSwitchToLogin={() => {
-            setShowSignup(false);
-            setShowLogin(true);
-          }}
-        />
-      )}
+     {showSignup && (
+  <SignupModal
+    onClose={() => setShowSignup(false)}
+    onSwitchToLogin={() => {
+      setShowSignup(false);
+      setShowLogin(true);
+    }}
+    onSignupSuccess={() => {
+      setShowSignup(false);
+      setShowLogin(true);
+      toast.success("Signup successful! Please log in.");
+    }}
+  />
+)}
+
+
     </header>
   );
 }

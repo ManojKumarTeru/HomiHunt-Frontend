@@ -21,6 +21,7 @@ export default function SignupModal({ onClose, onSwitchToLogin }: SignupModalPro
     const response = await fetch('https://property-listing-backend-khws.onrender.com/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials:"include",
       body: JSON.stringify({ firstName, lastName, emailId: email, password }),
     });
 

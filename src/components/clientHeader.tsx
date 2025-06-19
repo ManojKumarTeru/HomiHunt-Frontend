@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import LoginModal from "../components/loginModel"; // ✅ Make sure filename is correct (case-sensitive)
 import SignupModal from "../components/signupModal";
 import toast from 'react-hot-toast';
+import { Router } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 export default function ClientHeader() {
   const [username, setUsername] = useState('Guest');
@@ -24,6 +26,7 @@ export default function ClientHeader() {
   //   }
   // }, []);
 
+  const router=useRouter();
 
   const handleLogout = async () => {
   try {
@@ -35,6 +38,7 @@ export default function ClientHeader() {
     if (res.ok) {
       setUsername("Guest"); // Reset username
       toast.success("Logged out successfully!");
+      router.push("/home");
       // setShowLogin(true);   // Show login modal again (optional)
     } else {
       toast.error("Logout failed");

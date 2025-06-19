@@ -36,19 +36,16 @@ export default function LoginModal({ onClose, onSwitchToSignup }:LoginModalProps
       );
       const text = await response.text();
      if (response.ok) {
-      console.log("Login Response Text:", text);
-      console.log(text);
+        console.log("Login Response Text:", text);
+        console.log(text);
 
-      // ✅ Extract token from the response (after "Login Successful! ")
-      const parts = text.split(' ');
-      const token = parts[parts.length - 1]; // last part is token
+  // const parts = text.split(' ');
+  // const token = parts[parts.length - 1];
+  // localStorage.setItem('user', JSON.stringify({ email, token }));
 
-      // ✅ Store token in localStorage
-      localStorage.setItem('user', JSON.stringify({ email, token }));
-      console.log(token);
-
-      window.location.reload();
-    } else {
+  // ✅ Just reload
+  window.location.reload();
+} else {
       // setError(text);
     }
   } catch (err) {

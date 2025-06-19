@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 
 type LoginModalProps = {
   onClose: () => void;
@@ -12,45 +12,49 @@ type LoginModalProps = {
 export default function LoginModal({ onClose, onSwitchToSignup }:LoginModalProps) {
  const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const [error, setError] = useState('');
-    const router = useRouter();
+  //  const [error, setError] = useState('');
+  //   const router = useRouter();
  
 
  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
+    // setError('');
+    // const user = JSON.parse(localStorage.getItem('user') || '{}');
+    // const token = user.token;
     try {
       const response = await fetch(
         'https://property-listing-backend-khws.onrender.com/auth/login',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          credentials:"include",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             emailId: email,
             password,
           }),
         }
       );
+      const text = await response.text();
+     if (response.ok) {
+      console.log("Login Response Text:", text);
+      console.log(text);
 
-      if (response.ok) {
-        // const text = await response.text();
+      // ✅ Extract token from the response (after "Login Successful! ")
+      const parts = text.split(' ');
+      const token = parts[parts.length - 1]; // last part is token
 
-        // ✅ AUTO-LOGIN: Simulate storing user info (replace this with real logic)
-        localStorage.setItem('user', JSON.stringify({ email,password }));
+      // ✅ Store token in localStorage
+      localStorage.setItem('user', JSON.stringify({ email, token }));
+      console.log(token);
 
-        // ✅ Redirect to dashboard/home/profile after auto-login
-        router.push('/home'); // change to your actual path
-      } else {
-        const errText = await response.text();
-        setError(errText);
-        console.log(error);
-      }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-      console.log(err);
-    } finally {
+      window.location.reload();
+    } else {
+      // setError(text);
     }
+  } catch (err) {
+    console.error(err);
+    // setError('Something went wrong. Please try again.');
+  }
   };
 
   return (

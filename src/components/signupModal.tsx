@@ -1,7 +1,13 @@
 'use client';
 import { useState } from 'react';
 
-export default function SignupModal({ onClose, onSwitchToLogin }: { onClose: () => void, onSwitchToLogin: () => void }) {
+type SignupModalProps = {
+  onClose: () => void;
+  onSwitchToLogin: () => void;
+};
+
+
+export default function SignupModal({ onClose, onSwitchToLogin }: SignupModalProps) {
   const [email, setEmail] = useState('');
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');

@@ -5,6 +5,11 @@ import dynamic from 'next/dynamic';
 import PropertyCard from '@/components/propertyCard';
 import { StaticImageData } from 'next/image';
 
+import LoginModal from '@/components/loginModel';
+import SignupModal from '@/components/signupModal';
+import PropertyCardSkeleton from '@/components/shimmerUI/propertyCardShimmer';
+
+
 import one from "../../../public/PropertyImgs/one.jpeg"
 import two from "../../../public/PropertyImgs/two.jpeg"
 import three from "../../../public/PropertyImgs/three.jpeg"
@@ -71,6 +76,11 @@ export default function HomePage() {
   const [hasMore,setHasMore]=useState(true);
   // const [showLogin, setShowLogin] = useState(false);
 
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+
+
+
 
   // ✅ Fetch user name only once
   useEffect(() => {
@@ -119,6 +129,8 @@ export default function HomePage() {
    twentysix,twentyseven,twentyeight,twentynine,thirty
   ];
 
+
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
       <ClientHeader />
@@ -159,18 +171,46 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property, index) => {
   const image = curatedHouseImages[index % curatedHouseImages.length];
-  return <PropertyCard key={property._id} property={{ ...property, image }} />;
+  return <PropertyCard key={index} property={{ ...property, image }} onRequireLogin={() => setShowLoginModal(true)} />;
 })}
 
           </div>
         </>
       )}
+{showLoginModal && (
+  <LoginModal
+    onClose={() => setShowLoginModal(false)}
+    onLogin={() => setShowLoginModal(false)}
+    onSwitchToSignup={() => {
+      setShowLoginModal(false);
+      setShowSignupModal(true); // 👈 open signup
+    }}
+  />
+)}
+
+{showSignupModal && (
+  <SignupModal
+    onClose={() => setShowSignupModal(false)}
+    onSwitchToLogin={() => {
+      setShowSignupModal(false);
+      setShowLoginModal(true); // 👈 back to login
+    }}
+  />
+)}
+
+
 
       {loading && (
-        <div className="text-center text-indigo-600 text-lg font-semibold mt-4">
-          Loading properties...
-        </div>
-      )}
+  <>
+    <h3 className="text-lg font-semibold text-gray-800 mb-4">🏘️ Loading Properties</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <PropertyCardSkeleton key={i} />
+      ))}
+    </div>
+  </>
+)}
+
 
       {!loading && properties.length === 0 && (
         <p className="text-center text-gray-600">No properties available.</p>

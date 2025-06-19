@@ -2,8 +2,15 @@
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import { Property } from '@/types/property';
+import { useRouter } from 'next/navigation';
 
-export default function PropertyCard({ property }: { property: Property }) {
+export default function PropertyCard({
+  property,
+  onRequireLogin,
+}: {
+  property: Property;
+  onRequireLogin: () => void;
+}) {
   const {
     title,
     image,
@@ -23,12 +30,25 @@ export default function PropertyCard({ property }: { property: Property }) {
     listingType,
   } = property;
 
+   const router = useRouter();
+
+   const handleClick = () => {
+    const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null;
+
+    if (!user) {
+      onRequireLogin(); // 👈 open login modal from parent
+      return;
+    }
+
+    router.push(`/property/${property._id}`);
+  };
+
   const getListingLabel = () => {
     return listingType === 'rent' ? 'For Rent' : 'For Sale';
   };
 
   return (
-    <div
+    <div onClick={handleClick}
   className=" cursor-pointer rounded-xl shadow-lg overflow-hidden border transition-transform duration-300 hover:-translate-y-3"
   style={{ borderColor: colorTheme || '#ddd' }}
 >
@@ -96,7 +116,7 @@ export default function PropertyCard({ property }: { property: Property }) {
           {rating}/5
         </div>
 
-        <button
+        <button onClick={handleClick}
           className="cursor-pointer w-full mt-3 py-2 text-sm font-semibold rounded-md text-white"
           style={{ backgroundColor: colorTheme || '#4f46e5' }}
         >

@@ -10,18 +10,38 @@ export default function ClientHeader() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
+  // useEffect(() => {
+  //   const userStr = localStorage.getItem('user');
+  //   if (userStr) {
+  //     try {
+  //       const parsedUser = JSON.parse(userStr);
+  //       const name = parsedUser?.email?.split('@')[0] || 'Guest';
+  //       setUsername(name.charAt(0).toUpperCase() + name.slice(1));
+  //     } catch {
+  //       setUsername('Guest');
+  //     }
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      try {
-        const parsedUser = JSON.parse(userStr);
-        const name = parsedUser?.email?.split('@')[0] || 'Guest';
+  const fetchUser = async () => {
+    try {
+      const res = await fetch('https://property-listing-backend-khws.onrender.com/auth/me', {
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const user = await res.json();
+        const name = user.firstName || user.emailId.split('@')[0];
         setUsername(name.charAt(0).toUpperCase() + name.slice(1));
-      } catch {
-        setUsername('Guest');
       }
+    } catch (err) {
+      console.log("User not logged in");
     }
-  }, []);
+  };
+
+  fetchUser();
+}, []);
+
 
   return (
     <header className="w-full bg-white shadow-md sticky top-0 z-50">

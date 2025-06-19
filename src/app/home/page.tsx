@@ -83,15 +83,15 @@ export default function HomePage() {
 
 
   // ✅ Fetch user name only once
-  useEffect(() => {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      const user = JSON.parse(userStr);
-      const emailPrefix = user.email.split('@')[0];
-      const name = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
-      setUserName(name);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userStr = localStorage.getItem('user');
+  //   if (userStr) {
+  //     const user = JSON.parse(userStr);
+  //     const emailPrefix = user.email.split('@')[0];
+  //     const name = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+  //     setUserName(name);
+  //   }
+  // }, []);
 
   // ✅ Fetch properties on page change
   useEffect(() => {
@@ -109,6 +109,28 @@ export default function HomePage() {
         setLoading(false);
       });
   }, [currpage]);
+
+
+    useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await fetch('https://property-listing-backend-khws.onrender.com/auth/me', {
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const user = await res.json();
+        const name = user.firstName || user.emailId.split('@')[0];
+        setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+      }
+    } catch (err) {
+      console.log("User not logged in");
+    }
+  };
+
+  fetchUser();
+}, []);
+
+
 
   // ✅ Infinite scroll: detect bottom
   useEffect(() => {

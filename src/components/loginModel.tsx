@@ -54,6 +54,9 @@ export default function LoginModal({ onClose, onSwitchToSignup }:LoginModalProps
   }
   };
 
+
+  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/10 ">
       <div className="bg-white rounded-lg p-6 w-full max-w-md relative shadow-xl border border-gray-200 backdrop-blur-3xl">

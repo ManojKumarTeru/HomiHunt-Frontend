@@ -9,7 +9,7 @@ type LoginModalProps = {
 };
 
 
-export default function LoginModal({ onClose, onSwitchToSignup }:LoginModalProps) {
+export default function LoginModal({ onClose,onLogin, onSwitchToSignup }:LoginModalProps) {
  const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
   //  const [error, setError] = useState('');
@@ -44,6 +44,7 @@ export default function LoginModal({ onClose, onSwitchToSignup }:LoginModalProps
   // localStorage.setItem('user', JSON.stringify({ email, token }));
 
   // ✅ Just reload
+  onLogin(email);
   window.location.reload();
 } else {
       // setError(text);
